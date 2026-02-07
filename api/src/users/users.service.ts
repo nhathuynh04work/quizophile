@@ -30,4 +30,8 @@ export class UsersService {
       throw new InternalServerErrorException();
     }
   }
+
+  async findOneByEmailForAuth(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
 }
