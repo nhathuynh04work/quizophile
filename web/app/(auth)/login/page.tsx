@@ -56,7 +56,7 @@ export default function LoginPage() {
     return (
         <Card className="w-full bg-secondary-background border-2 border-border shadow-shadow">
             <form onSubmit={handleSubmit}>
-                <CardHeader className="space-y-1 flex flex-col items-center text-center">
+                <CardHeader className="space-y-1 flex flex-col items-center text-center pb-6">
                     {/* Brand Logo */}
                     <div className="mb-4">
                         <Logo size={80} />
