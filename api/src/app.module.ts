@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './common/config/env.validation';
+import { QuizzesModule } from './quizzes/quizzes.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { validate } from './common/config/env.validation';
     UsersModule,
     PrismaModule,
     ConfigModule.forRoot({ isGlobal: true, validate }),
+    QuizzesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
