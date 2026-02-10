@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const QuizStatus = {
+  PRIVATE: 'PRIVATE',
+  PUBLIC: 'PUBLIC',
+  ARCHIVED: 'ARCHIVED'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type QuizStatus = (typeof QuizStatus)[keyof typeof QuizStatus]
