@@ -8,14 +8,6 @@ export class QuizzesService {
   async findById(id: string) {
     const quiz = await this.prisma.quiz.findUnique({
       where: { id },
-      include: {
-        questions: {
-          orderBy: { order: 'asc' },
-          include: {
-            options: true,
-          },
-        },
-      },
     });
 
     if (!quiz) {

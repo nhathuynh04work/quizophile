@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id             String   @id @default(uuid())\n  name           String\n  email          String   @unique\n  passwordDigest String\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  quizzes        Quiz[]\n}\n\nmodel Quiz {\n  id        String     @id @default(uuid())\n  title     String\n  status    QuizStatus @default(PRIVATE)\n  userId    String\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n\n  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)\n  questions Question[]\n}\n\nenum QuizStatus {\n  PRIVATE\n  PUBLIC\n  ARCHIVED\n}\n\nmodel Question {\n  id          String @id @default(uuid())\n  text        String\n  points      Int    @default(1000)\n  timeLimitMs Int    @default(20000)\n  order       Int    @default(1)\n  quizId      String\n\n  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)\n  options Option[]\n}\n\nmodel Option {\n  id         String  @id @default(uuid())\n  text       String\n  isCorrect  Boolean @default(false)\n  questionId String\n\n  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id             String   @id @default(uuid())\n  name           String\n  email          String   @unique\n  passwordDigest String\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  quizzes        Quiz[]\n}\n\nmodel Quiz {\n  id        String     @id @default(uuid())\n  title     String\n  status    QuizStatus @default(PRIVATE)\n  content   Json?\n  userId    String\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nenum QuizStatus {\n  PRIVATE\n  PUBLIC\n  ARCHIVED\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordDigest\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"quizzes\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuizToUser\"}],\"dbName\":null},\"Quiz\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"QuizStatus\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuizToUser\"},{\"name\":\"questions\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToQuiz\"}],\"dbName\":null},\"Question\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"timeLimitMs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuestionToQuiz\"},{\"name\":\"options\",\"kind\":\"object\",\"type\":\"Option\",\"relationName\":\"OptionToQuestion\"}],\"dbName\":null},\"Option\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isCorrect\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"OptionToQuestion\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordDigest\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"quizzes\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuizToUser\"}],\"dbName\":null},\"Quiz\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"QuizStatus\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuizToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -195,26 +195,6 @@ export interface PrismaClient<
     * ```
     */
   get quiz(): Prisma.QuizDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.question`: Exposes CRUD operations for the **Question** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Questions
-    * const questions = await prisma.question.findMany()
-    * ```
-    */
-  get question(): Prisma.QuestionDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.option`: Exposes CRUD operations for the **Option** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Options
-    * const options = await prisma.option.findMany()
-    * ```
-    */
-  get option(): Prisma.OptionDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
