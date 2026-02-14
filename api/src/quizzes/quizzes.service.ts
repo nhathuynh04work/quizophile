@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SaveQuizDto } from './quiz.dtos';
 
@@ -39,7 +40,7 @@ export class QuizzesService {
         },
         data: {
           title: payload.title || 'Untitled',
-          content: payload.content,
+          content: payload.content as unknown as Prisma.InputJsonValue,
           status: payload.status,
         },
       });
@@ -53,7 +54,7 @@ export class QuizzesService {
             id: id,
             userId: currentUserId,
             title: payload.title || 'Untitled',
-            content: payload.content,
+            content: payload.content as unknown as Prisma.InputJsonValue,
             status: payload.status,
           },
         });
